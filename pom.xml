@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>cz.cvut.felk.ida.cybercalc</groupId>
+  <artifactId>print</artifactId>
+  <version>0.1</version>
+  <name>Printer API</name>
+  <inceptionYear>2016</inceptionYear>
+  <description>Various routines for printing tables and similar</description>
+
+  <properties>
+    <netbeans.hint.license>ctu</netbeans.hint.license>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <distributionManagement>
+    <repository><id>ida-ssh</id><!-- IDA CVUT repository -->
+      <url>scpexe://maven@ida.fel.cvut.cz/srv/maven/data</url>
+    </repository>
+  </distributionManagement>
+  
+  <repositories>
+    <repository><id>ida</id><!-- IDA CVUT repository -->
+      <url>http://ida.fel.cvut.cz/maven</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <!-- Main -->
+    <!-- Test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin><!-- Compile using correct Java -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>1.8</source><target>1.8</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin><!-- Sources attached -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.4</version>
+        <executions><execution>
+          <goals><goal>jar</goal></goals>
+        </execution></executions>
+      </plugin>
+
+      <plugin><!-- Generate JavaDoc -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <docfilessubdirs>true</docfilessubdirs><quiet>true</quiet>
+          <windowtitle><![CDATA[Printing utils v${project.version}]]></windowtitle>
+          <doctitle><![CDATA[Printing utils v${project.version}]]></doctitle>
+        </configuration>
+        <executions><execution>
+          <goals><goal>jar</goal></goals>
+        </execution></executions>
+      </plugin>
+
+      <plugin><!-- GPG sign artifacts. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions><execution>
+          <phase>deploy</phase>
+          <goals><goal>sign</goal></goals>
+        </execution></executions>
+      </plugin>
+
+      <plugin><!-- Redeploy signed -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.7</version>
+        <executions><execution>
+          <phase>deploy</phase>
+          <goals><goal>deploy</goal></goals>
+        </execution></executions>
+      </plugin>
+    </plugins>
+
+    <extensions>
+      <extension><!-- Enabling the use of FTP -->
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>2.6</version>
+      </extension>
+    </extensions>
+  </build>
+</project>
