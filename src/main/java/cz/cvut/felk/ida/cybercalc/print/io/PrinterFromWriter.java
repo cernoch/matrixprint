@@ -67,7 +67,18 @@ public class PrinterFromWriter implements Printer, AutoCloseable {
         }
         return this;
     }
-
+    
+    public PrinterFromWriter flush() {
+        if (thrown == null) {
+            try {
+                wr.flush();
+            } catch (IOException ex) {
+                thrown = ex;
+            }
+        }
+        return this;
+    }
+    
     public void rethrow() throws IOException {
         IOException cause = thrown;
         if (cause != null) {
