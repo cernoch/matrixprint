@@ -4,7 +4,7 @@
 
   <groupId>cz.cvut.felk.ida.cybercalc</groupId>
   <artifactId>print</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <name>Printer API</name>
   <inceptionYear>2016</inceptionYear>
   <description>Various routines for printing tables and similar</description>
