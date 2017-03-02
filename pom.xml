@@ -2,22 +2,44 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>cz.cvut.felk.ida.cybercalc</groupId>
-  <artifactId>print</artifactId>
-  <version>0.2</version>
-  <name>Printer API</name>
+  <groupId>io.github.cernoch</groupId>
+  <artifactId>matrixprint</artifactId>
+  <version>1.0</version>
+  <name>${project.groupId}:${project.artifactId}</name>
   <inceptionYear>2016</inceptionYear>
-  <description>Various routines for printing tables and similar</description>
+  <description>Print 2D tables and matrices to TXT and HTML</description>
+  <url>https://github.com/cernoch/matrixprint</url>
 
   <properties>
-    <netbeans.hint.license>ctu</netbeans.hint.license>
+    <netbeans.hint.license>mit</netbeans.hint.license>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <licenses><license>
+    <name>MIT License</name>
+    <url>http://www.opensource.org/licenses/mit-license.php</url>
+  </license></licenses>
+  
+  <developers>
+    <developer>
+      <name>Radomír Černoch</name>
+      <email>radomir.cernoch@gmail.com</email>
+      <organization>Czech Technical University in Prague</organization>
+      <organizationUrl>http://www.cvut.cz</organizationUrl>
+    </developer>
+  </developers>
+  
+  <scm>
+    <connection>scm:git:git://github.com/cernoch/matrixprint.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com:cernoch/matrixprint.git</developerConnection>
+    <url>https://github.com/cernoch/matrixprint</url>
+  </scm>
+  
   <distributionManagement>
-    <repository><id>ida-ssh</id><!-- IDA CVUT repository -->
-      <url>scpexe://maven@ida.fel.cvut.cz/srv/maven/data</url>
-    </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
   
   <repositories>
@@ -27,8 +49,6 @@
   </repositories>
 
   <dependencies>
-    <!-- Main -->
-    <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -39,7 +59,7 @@
 
   <build>
     <plugins>
-      <plugin><!-- Compile using correct Java -->
+      <plugin><!-- Compile using Java 1.8 -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.3</version>
@@ -78,24 +98,26 @@
         <artifactId>maven-gpg-plugin</artifactId>
         <version>1.6</version>
         <executions><execution>
-          <phase>deploy</phase>
+          <phase>verify</phase>
           <goals><goal>sign</goal></goals>
         </execution></executions>
       </plugin>
 
-      <plugin><!-- Redeploy signed -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.7</version>
-        <executions><execution>
-          <phase>deploy</phase>
-          <goals><goal>deploy</goal></goals>
-        </execution></executions>
+      <plugin><!-- Deploy to Sonatype -->
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
       </plugin>
     </plugins>
 
     <extensions>
-      <extension><!-- Enabling the use of FTP -->
+      <extension><!-- Enabling the use of sFTP -->
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh-external</artifactId>
         <version>2.6</version>
